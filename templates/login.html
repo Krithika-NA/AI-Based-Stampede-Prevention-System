@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Login - Stampede Detection System</title>
+  <style>
+    /* ===== Base Styles ===== */
+    body, html {
+      margin: 0;
+      padding: 0;
+      font-family: 'Poppins', sans-serif;
+      height: 100vh;
+      background: radial-gradient(circle at top left, #0d1b2a, #000);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      overflow: hidden;
+    }
+
+    /* ===== Animated Background Grid ===== */
+    body::before {
+      content: "";
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-image: linear-gradient(90deg, rgba(255,255,255,0.05) 1px, transparent 1px),
+                        linear-gradient(rgba(255,255,255,0.05) 1px, transparent 1px);
+      background-size: 40px 40px;
+      animation: moveGrid 10s linear infinite;
+      z-index: 0;
+    }
+
+    @keyframes moveGrid {
+      0% { background-position: 0 0; }
+      100% { background-position: 40px 40px; }
+    }
+
+    /* ===== Navbar ===== */
+    .navbar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 18px 40px;
+      background: rgba(5, 10, 20, 0.95);
+      backdrop-filter: blur(10px);
+      position: fixed;
+      width: 100%;
+      top: 0;
+      left: 0;
+      z-index: 10;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.5);
+    }
+
+    .navbar .logo {
+      font-size: 1.8rem;
+      font-weight: 700;
+      color: #00eaff;
+      letter-spacing: 1px;
+    }
+
+    .navbar a {
+      color: #e0e0e0;
+      text-decoration: none;
+      padding: 10px 20px;
+      border-radius: 6px;
+      font-weight: 500;
+      transition: 0.3s ease-in-out;
+      margin-right: 40px;
+    }
+
+    .navbar a:hover {
+      background: linear-gradient(90deg, #00eaff, #007bff);
+      color: #000;
+      transform: scale(1.08);
+    }
+
+    /* ===== Container ===== */
+    .container {
+      margin-top: 80px;
+      display: flex;
+      width: 850px;
+      height: 420px;
+      background: rgba(15, 25, 35, 0.85);
+      border-radius: 20px;
+      overflow: hidden;
+      box-shadow: 0 0 25px rgba(0, 234, 255, 0.2);
+      z-index: 1;
+    }
+
+    /* ===== Form Section ===== */
+    .form-section {
+      width: 50%;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding: 30px;
+      background: rgba(20, 30, 45, 0.95);
+    }
+
+    .form-container {
+      width: 100%;
+      max-width: 350px;
+      text-align: center;
+    }
+
+    h2 {
+      color: #00eaff;
+      margin-bottom: 25px;
+      font-size: 1.8rem;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+    }
+
+    input {
+      width: 100%;
+      padding: 12px;
+      margin: 12px 0;
+      border: 1px solid #00eaff;
+      border-radius: 8px;
+      background-color: #101820;
+      color: white;
+      font-size: 16px;
+      outline: none;
+      transition: border-color 0.3s;
+    }
+
+    input:focus {
+      border-color: #00b4d8;
+      box-shadow: 0 0 8px rgba(0,180,216,0.4);
+    }
+
+    button {
+      width: 100%;
+      padding: 12px;
+      background: linear-gradient(90deg, #00eaff, #007bff);
+      color: #000;
+      border: none;
+      border-radius: 8px;
+      font-size: 16px;
+      font-weight: 600;
+      cursor: pointer;
+      margin-top: 10px;
+      transition: all 0.3s ease-in-out;
+    }
+
+    button:hover {
+      transform: scale(1.05);
+      box-shadow: 0 0 12px rgba(0,234,255,0.5);
+    }
+
+    /* ===== Image Section ===== */
+    .image-section {
+      width: 50%;
+      background: url('{{ url_for('static', filename='image/stamp-bg.jpg') }}') no-repeat center center;
+      background-size: cover;
+      filter: brightness(0.9);
+      position: relative;
+    }
+
+    .image-section::after {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background: rgba(0,0,0,0.5);
+    }
+
+    /* ===== Links ===== */
+    .form-container p a {
+      color: #00eaff;
+      text-decoration: none;
+      font-weight: bold;
+      transition: color 0.3s;
+    }
+
+    .form-container p a:hover {
+      color: #007bff;
+    }
+
+    /* ===== Responsive ===== */
+    @media (max-width: 768px) {
+      .image-section {
+        display: none;
+      }
+      .form-section {
+        width: 100%;
+      }
+      .container {
+        width: 90%;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="navbar">
+    <div class="logo">Stampede Detection</div>
+    <div>
+
+           <a href="{{ url_for('register') }}">Register</a>
+      <a href="{{ url_for('index') }}">Home</a>
+   
+ 
+    </div>
+  </div>
+
+  <div class="container">
+    <div class="form-section">
+      <div class="form-container">
+        <h2>Login</h2>
+        {% with messages = get_flashed_messages(with_categories=true) %}
+          {% for category, message in messages %}
+            <p class="{{ category }}">{{ message }}</p>
+          {% endfor %}
+        {% endwith %}
+        <form method="POST">
+          <input type="email" name="email" placeholder="Email" required>
+          <input type="password" name="password" placeholder="Password" required>
+          <button type="submit">Login</button>
+        </form>
+      </div>
+    </div>
+    <div class="image-section"></div>
+  </div>
+</body>
+</html>

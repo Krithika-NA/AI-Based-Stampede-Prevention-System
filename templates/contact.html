@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Contact Us - Bone Tumor Detection</title>
+    <style>
+        body, html {
+            margin: 0;
+            padding: 0;
+            font-family: 'Poppins', sans-serif;
+            height: 100vh;
+            background-color: #1f1f1f;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .navbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px;
+            background: #070c0f;
+            position: fixed;
+            width: 100%;
+            top: 0;
+            left: 0;
+            z-index: 1000;
+        }
+
+        .navbar .logo {
+            font-size: 2rem;
+            font-weight: bold;
+            color: #ffffff;
+        }
+
+        .navbar a {
+            color: white;
+            text-decoration: none;
+            padding: 12px 22px;
+            transition: 0.3s ease-in-out;
+            font-size: 1.2rem;
+            border-radius: 5px;
+            font-weight: 500;
+        }
+
+        .navbar a:hover {
+            background: linear-gradient(90deg, #e2fcf4, #5e5e5e);
+            color: black;
+            transform: scale(1.1);
+        }
+
+        .container {
+            margin-top: 65px;
+            display: flex;
+            width: 900px;
+            height: 470px;
+            background-color: rgba(80, 80, 80, 0.7);
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.4);
+        }
+
+        .form-section {
+            width: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background-color: #2d2d2d;
+        }
+
+        .form-container {
+            width: 80%;
+            max-width: 400px;
+            text-align: center;
+        }
+
+        h2 {
+            color: #ffffff;
+            margin-bottom: 20px;
+        }
+
+        input, textarea {
+            width: 100%;
+            padding: 12px;
+            margin: 10px 0;
+            border: 1px solid #999;
+            border-radius: 5px;
+            font-size: 16px;
+            background-color: #f1f1f1;
+            color: #000;
+        }
+
+        textarea {
+            height: 100px;
+            resize: none;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        button {
+            width: 100%;
+            padding: 12px;
+            background-color: #8a8a8a;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            font-size: 16px;
+            cursor: pointer;
+            margin-top: 10px;
+            transition: background-color 0.3s;
+        }
+
+        button:hover {
+            background-color: #242424;
+        }
+
+        .image-section {
+            width: 50%;
+            background: url('{{ url_for('static', filename='image/4.jpg') }}') no-repeat center center;
+            background-size: cover;
+        }
+
+        @media (max-width: 768px) {
+            .image-section {
+                display: none;
+            }
+            .form-section {
+                width: 100%;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="navbar">
+        <div class="logo">Bone Tumor Detection</div>
+        <div>
+            <a href="{{ url_for('index') }}">Home</a>
+            <a href="{{ url_for('register') }}">Register</a>
+            <a href="{{ url_for('about') }}">About</a>
+        </div>
+    </div>
+
+    <div class="container">
+        <div class="form-section">
+            <div class="form-container">
+                <h2>Contact Us</h2>
+                {% with messages = get_flashed_messages(with_categories=true) %}
+                    {% for category, message in messages %}
+                        <p class="{{ category }}">{{ message }}</p>
+                    {% endfor %}
+                {% endwith %}
+
+                <form action="https://formspree.io/f/mpwqveaz" method="POST">
+                    <input type="email" name="email" placeholder="Your Email" required>
+                    <textarea name="message" placeholder="Your Message" required></textarea>
+                    <button type="submit">Send Message</button>
+                </form>
+            </div>
+        </div>
+        <div class="image-section"></div>
+    </div>
+</body>
+</html>
+s

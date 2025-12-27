@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>About | Live Crowd Detection</title>
+<style>
+    body {
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        margin: 0;
+        background: linear-gradient(135deg, #e3f2fd, #ffffff);
+        color: #222;
+        padding: 0;
+    }
+
+    header {
+        background-color: #0d47a1;
+        color: white;
+        padding: 20px 0;
+        text-align: center;
+        font-size: 28px;
+        font-weight: bold;
+    }
+
+    .container {
+        max-width: 1000px;
+        margin: 40px auto;
+        background: #fff;
+        border-radius: 10px;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        padding: 30px 40px;
+        line-height: 1.6;
+    }
+
+    h2 {
+        color: #0d47a1;
+        border-left: 5px solid #0d47a1;
+        padding-left: 10px;
+    }
+
+    ul {
+        margin-left: 30px;
+    }
+
+    .highlight {
+        color: #1565c0;
+        font-weight: 600;
+    }
+
+    footer {
+        text-align: center;
+        background: #0d47a1;
+        color: white;
+        padding: 15px;
+        margin-top: 40px;
+        font-size: 14px;
+    }
+
+    a {
+        color: #1565c0;
+        text-decoration: none;
+        font-weight: 600;
+    }
+
+    a:hover {
+        text-decoration: underline;
+    }
+
+    .section {
+        margin-bottom: 30px;
+    }
+</style>
+</head>
+<body>
+
+<header>
+    Live Crowd Detection System
+</header>
+
+<div class="container">
+    <div class="section">
+        <h2>Overview</h2>
+        <p>
+            The <span class="highlight">Live Crowd Detection System</span> is an intelligent computer vision application
+            that monitors crowded environments in real time. It detects people using
+            <strong>YOLOv5 deep learning</strong> and applies advanced tracking algorithms to estimate
+            crowd density, detect potential stampedes, and alert authorities when abnormal movement is detected.
+        </p>
+    </div>
+
+    <div class="section">
+        <h2>Key Features</h2>
+        <ul>
+            <li><strong>Real-time Detection:</strong> Uses <span class="highlight">YOLOv5</span> to detect persons in video frames instantly.</li>
+            <li><strong>Centroid-based Tracking:</strong> Continuously tracks individuals using their movement patterns and positions.</li>
+            <li><strong>Stampede Detection:</strong> Monitors crowd density and identifies when occupancy exceeds a threshold (default 85%).</li>
+            <li><strong>Abnormal Speed Alert:</strong> Detects high-speed movement patterns indicating possible panic or stampede.</li>
+            <li><strong>Audio Alerts:</strong> Plays a warning sound (<em>sound.wav</em>) during danger or overcapacity.</li>
+            <li><strong>SMS Notifications:</strong> Sends instant alerts to authorities via <span class="highlight">Twilio API</span>.</li>
+        </ul>
+    </div>
+
+    <div class="section">
+        <h2>How It Works</h2>
+        <p>
+            The system captures live video feed from a webcam and passes each frame through the
+            YOLOv5 model to identify people. Detected individuals are tracked using a
+            <span class="highlight">centroid-based tracker</span> to measure movement and estimate speed.
+            If the crowd exceeds the user-defined capacity or movement speed surpasses a threshold,
+            the system automatically:
+        </p>
+        <ul>
+            <li>Plays an audible alarm using <strong>winsound</strong>.</li>
+            <li>Sends a text alert through <strong>Twilio</strong> to the configured phone number.</li>
+            <li>Highlights abnormal individuals and shows real-time occupancy stats on screen.</li>
+        </ul>
+    </div>
+
+    <div class="section">
+        <h2>Technology Stack</h2>
+        <ul>
+            <li><strong>Programming Language:</strong> Python</li>
+            <li><strong>Deep Learning Model:</strong> YOLOv5 (PyTorch)</li>
+            <li><strong>Libraries:</strong> OpenCV, NumPy, Twilio REST API</li>
+            <li><strong>Alert System:</strong> Audio (winsound) + SMS via Twilio</li>
+            <li><strong>Interface:</strong> Flask-based Web Interface with Live Stream</li>
+        </ul>
+    </div>
+
+    <div class="section">
+        <h2>Safety Applications</h2>
+        <p>
+            This system can be deployed in high-footfall areas such as stadiums, railway stations,
+            malls, and event venues to monitor crowd density and automatically alert authorities
+            before panic situations occur. It contributes to improving public safety through
+            real-time AI surveillance.
+        </p>
+    </div>
+
+    <div class="section">
+        <h2>Developed By</h2>
+        <p>
+            <strong>Project Team:</strong> HUSH RUSH:
+AI BASED STAMPEDE PREVENTION SYSTEM
+<br>
+            <strong>Mentor:</strong> Prof. SHWETHA G S
+<br>
+            <strong>Institution:</strong> BANGALORE INSTITUTE OF TECHNOLOGY<br>
+            <strong>Year:</strong> 2025
+        </p>
+    </div>
+
+    <p><a href="{{ url_for('index') }}">← Back to Home</a></p>
+</div>
+
+<footer>
+    &copy; 2025 Smart Vision AI — Live Crowd Detection | All Rights Reserved
+</footer>
+
+</body>
+</html>

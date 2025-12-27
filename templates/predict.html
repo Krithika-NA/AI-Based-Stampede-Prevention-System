@@ -1,0 +1,251 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Live Crowd Detection</title>
+<style>
+  /* ===== Base Layout ===== */
+  body, html {
+    margin: 0;
+    padding: 0;
+    font-family: 'Poppins', sans-serif;
+    background: radial-gradient(circle at top left, #0d1b2a, #000);
+    color: #e0e0e0;
+    height: 100vh;
+    overflow-x: hidden;
+  }
+
+  /* ===== Navbar/Header ===== */
+  .header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: rgba(10, 20, 40, 0.9);
+    padding: 20px 50px;
+    color: #00eaff;
+    font-size: 1.2rem;
+    font-weight: 600;
+    letter-spacing: 0.5px;
+    box-shadow: 0 2px 10px rgba(0,234,255,0.2);
+  }
+
+  .header a {
+    color: #00eaff;
+    text-decoration: none;
+    font-weight: 500;
+    border: 1px solid transparent;
+    padding: 8px 16px;
+    border-radius: 6px;
+    transition: all 0.3s ease-in-out;
+  }
+
+  .header a:hover {
+    background: linear-gradient(90deg, #00eaff, #007bff);
+    color: #000;
+  }
+
+  /* ===== Container ===== */
+  .container {
+    max-width: 1000px;
+    margin: 60px auto;
+    padding: 30px 40px;
+    background: rgba(15, 25, 35, 0.85);
+    border-radius: 15px;
+    box-shadow: 0 0 25px rgba(0, 234, 255, 0.1);
+    text-align: center;
+  }
+
+  h2 {
+    font-size: 2rem;
+    color: #00eaff;
+    text-transform: uppercase;
+    margin-bottom: 25px;
+  }
+
+  p {
+    color: #a0a0a0;
+  }
+
+  /* ===== Form ===== */
+  form {
+    margin-top: 20px;
+    margin-bottom: 30px;
+  }
+
+  input[type="number"] {
+    padding: 12px;
+    width: 250px;
+    border: 1px solid #00eaff;
+    border-radius: 8px;
+    background: #101820;
+    color: #fff;
+    font-size: 16px;
+    outline: none;
+    margin-right: 10px;
+    transition: border-color 0.3s ease-in-out;
+  }
+
+  input[type="number"]:focus {
+    border-color: #00b4d8;
+    box-shadow: 0 0 8px rgba(0,180,216,0.4);
+  }
+
+  button {
+    padding: 12px 20px;
+    background: linear-gradient(90deg, #00eaff, #007bff);
+    color: #000;
+    border: none;
+    border-radius: 8px;
+    font-size: 16px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease-in-out;
+  }
+
+  button:hover {
+    transform: scale(1.05);
+    box-shadow: 0 0 12px rgba(0,234,255,0.5);
+  }
+
+  /* ===== Messages ===== */
+  .message {
+    margin: 10px 0;
+    color: #00ffb7;
+    font-weight: 500;
+  }
+
+  /* ===== Video Feed Section ===== */
+  #video-container {
+    display: none;
+    margin-top: 30px;
+    text-align: center;
+  }
+
+  img {
+    border: 3px solid #00eaff;
+    border-radius: 10px;
+    box-shadow: 0 0 20px rgba(0, 234, 255, 0.2);
+  }
+
+  #video-container p {
+    color: #b0b0b0;
+    margin-top: 10px;
+  }
+
+  /* ===== Animated Background Grid ===== */
+  body::before {
+    content: "";
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-image: linear-gradient(90deg, rgba(255,255,255,0.05) 1px, transparent 1px),
+                      linear-gradient(rgba(255,255,255,0.05) 1px, transparent 1px);
+    background-size: 40px 40px;
+    animation: moveGrid 10s linear infinite;
+    z-index: -1;
+  }
+
+  @keyframes moveGrid {
+    0% { background-position: 0 0; }
+    100% { background-position: 40px 40px; }
+  }
+
+  /* ===== Responsive Design ===== */
+  @media (max-width: 768px) {
+    .container {
+      width: 90%;
+      padding: 20px;
+    }
+
+    input[type="number"] {
+      width: 100%;
+      margin-bottom: 15px;
+    }
+
+    button {
+      width: 100%;
+    }
+
+    img {
+      width: 100%;
+    }
+  }
+</style>
+</head>
+<body>
+
+  <div class="header">
+    <div>👁️ Live Crowd Detection</div>
+    <div>
+      Logged in as: <span style="color:#fff;">{{ session['user_name'] }}</span> |
+      <a href="{{ url_for('logout') }}">Logout</a>
+    </div>
+  </div>
+
+  <div class="container">
+    <h2>Crowd Monitoring Dashboard</h2>
+    <p>Set a maximum crowd capacity and start real-time detection. The system will alert when the limit is exceeded.</p>
+
+    <form id="capacity-form">
+      <label for="max_capacity" style="color:#00eaff; font-weight:600;">Enter Maximum Capacity:</label><br><br>
+      <input type="number" name="max_capacity" id="max_capacity" value="{{ max_capacity }}" min="1" required>
+      <button type="submit">Start Detection</button>
+    </form>
+
+    <div id="messages">
+      {% with messages = get_flashed_messages(with_categories=true) %}
+        {% for category, message in messages %}
+          <div class="message">{{ message }}</div>
+        {% endfor %}
+      {% endwith %}
+    </div>
+
+    <div id="video-container">
+      <hr style="border-color:#00eaff;">
+      <img id="video-feed" width="800" src="">
+      <p>Press <b>ESC</b> in backend terminal to stop monitoring.</p>
+    </div>
+
+    <!-- Audio Alert -->
+    <audio id="alert-sound" src="{{ url_for('static', filename='sound.wav') }}"></audio>
+  </div>
+
+  <script>
+  document.getElementById('capacity-form').addEventListener('submit', function(e){
+      e.preventDefault();
+
+      let maxCapacity = document.getElementById('max_capacity').value;
+      if(maxCapacity <= 0){
+          alert("Enter a valid positive number");
+          return;
+      }
+
+      fetch("{{ url_for('predict') }}", {
+          method: "POST",
+          headers: {'Content-Type': 'application/x-www-form-urlencoded'},
+          body: "max_capacity=" + maxCapacity
+      })
+      .then(response => response.text())
+      .then(data => {
+          document.getElementById('video-container').style.display = 'block';
+          document.getElementById('video-feed').src = "{{ url_for('video_feed') }}";
+
+          setInterval(function(){
+              fetch("{{ url_for('check_alert') }}")
+              .then(res => res.json())
+              .then(data => {
+                  if(data.alert){
+                      document.getElementById('alert-sound').play();
+                  }
+              })
+              .catch(err => console.log(err));
+          }, 1000);
+      })
+      .catch(err => console.log(err));
+  });
+  </script>
+
+</body>
+</html>
