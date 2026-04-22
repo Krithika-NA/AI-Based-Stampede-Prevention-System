@@ -31,10 +31,4 @@ The system analyzes live or recorded video feeds to:
    - SMS alert is sent to authorities  
 5. Live status is displayed on the web interface  
 
-## 📂 Project Type
-Academic project (prototype)
 
-## 🚧 Limitations
-- Uses a pre-trained YOLO model without custom dataset training  
-- Accuracy may vary under extreme lighting or camera angles  
-- Intended for demonstration and academic purposes
